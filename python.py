@@ -10,6 +10,12 @@ pd.read_csv('file_name.csv', usecols= ['column_name1','column_name2']) # subset 
 """VIEW DATA"""
 display(data)
 head(data)
+data.info() # display number rows, columns
+len(df) # get number of rows
+len(df.columns) # get number of columns
+df.shape # get number rows and columns
+df.size # get number of elements
+
 
 
 """INSPECT DATA"""
@@ -17,24 +23,42 @@ head(data)
 data.dtypes 
 # 2. Check the length of each column
 len(data) # rows
+# (b) Get column names
+list_names = results.columns.names
+# get unique values
 len(pd.unique(data["column"])) # data 
+# (b) Count non-missing observations
+n_nonmiss = results["points"].count()
 
 # summary statistics
 data.describe()
 print(data["column"].describe())
 data["column"].dtype
 
-# Extract specific columns
+"""Create new dataframe"""
+# Filter subset of rows
+lower_value          = 20
+subset_row_text      = races.query('name == "Australian Grand Prix"')
+subset_row_ineq      = results.query('(points >= 20) & (points <= 30)')
+subset_row_global    = results.query('(points >= @lower_value)')
+subset_row_colspaces = results.query('(`points col` >= @lower_value)')
+
+# Extract specific columns for new dataframe
 data[["columnOne", "columntwo"]]
 
 # Rename columns
 dictionary_rename = {'oldName': "newName"}
 data = data.rename(columns = dictionary_rename)
+# rename in one line
+data = data.rename({'oldName': "newName"})
 # 2. Problem: String intead of Numerical column
 subset = data.query("columnName.str.isnumeric()==False") #.str (not a )
 list_unique = pd.unique(subset["column"]) # list of unique values from list
 data["column"] = data["column"].replace([list_oldValues], [list_newValues])
 data["column"] = pd.to_numeric(data["column"]) # converts to numeric
+# Replace values
+results   = results.replace(to_replace = ["UK","USA"],
+                            value = ["United Kingdom","United States"])
 
 # Groupby and Aggregate ('column name', 'function name')
 teamrace_agg = (results.query("raceId >= 200")

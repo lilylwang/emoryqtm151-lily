@@ -91,7 +91,7 @@ results_merge = pd.merge(results_primarydataset,
 dict_rename_races = {"name_x": "race_name", 
                     "name_y" : "circuit_name"} # must rename common names (python automatically add _x and _y)
 
-# 3. Query than cocatenate data back together:
+# 3. Query than concatenate data back together:
 circuits_usa   = circuits.query('country == "United States" | country == "USA"')
 circuits_malaysia = circuits.query('country == "Malaysia"')
 circuits_concat = pd.concat([circuits_malaysia,circuits_usa])

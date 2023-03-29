@@ -51,10 +51,19 @@ Import data
 
 -- (i) Delete table:
 --      DROP IF EXISTS table_name```
+DROP TABLE IF EXISTS test;
 
 -- (ii) Create headers of new table:
 --      CREATE TABLE table_name ( ... ) ```
-
+CREATE TABLE test (
+        member_id    int PRIMARY KEY,
+        full_name    varchar(30),
+        last_name    varchar(30),
+        member_title varchar(30),
+        state        varchar(30),
+        party_name   varchar(30),
+        chamber      varchar(30)
+);
 -- (iii) Import rows from CSV:
 --       COPY table_name
 --       FROM 'pathname'
@@ -88,6 +97,20 @@ The quiz will use the Formula 1 dataset
 with column names and data types
 - You will need to use the SQL command ``` CREATE TABLE ```
 
+-- SQLBook: Code
+DROP TABLE IF EXISTS test;
+
+-- (ii) Create headers of new table:
+--      CREATE TABLE table_name ( ... ) ```
+CREATE TABLE test (
+        member_id    int PRIMARY KEY,
+        full_name    varchar(30),
+        last_name    varchar(30),
+        member_title varchar(30),
+        state        varchar(30),
+        party_name   varchar(30),
+        chamber      varchar(30)
+);
 -- SQLBook: Markup
 
 <font size = "5">
@@ -101,6 +124,14 @@ from ".csv" files using the command <br>
 - Display the dataset using ``` SELECT * FROM .... ```
 - See Lecture 18 for more details
 
+-- SQLBook: Code
+SELECT * FROM drivers;
+SELECT * FROM drivers
+WHERE (nationality = 'United States') OR (nationality = 'Indian');
+
+SELECT * FROM drivers
+WHERE (nationality = 'German') AND (driver_id = 2);
+
 -- SQLBook: Markup
 <font size = "5">
 
@@ -108,6 +139,12 @@ from ".csv" files using the command <br>
 
 - Subset one of the above datasets using ``` WHERE ```
 - Then sort the datasets in ascending or descending order 
+-- SQLBook: Code
+SELECT * FROM drivers
+WHERE (nationality = 'German') AND (driver_id = 2);
+
+SELECT * FROM drivers
+ORDER BY victories ASC;
 -- SQLBook: Markup
 <font size = "5">
 
@@ -120,6 +157,27 @@ from ".csv" files using the command <br>
 
 
 HINT: See the end of lectures 17
+-- SQLBook: Code
+SELECT nationality,
+       SUM(victories) AS sum_victories,
+       AVG(victories) AS mean_victories,
+       MIN(victories) AS min_victories,
+       MAX(victories) AS max_victories
+FROM drivers
+GROUP BY nationality;
+
+-- HAVING is the command you use to subset *after* aggregating
+-- This differs from WHERE which is use to subset *before* aggregating
+
+SELECT nationality,
+       SUM(victories) AS sum_victories,
+       AVG(victories) AS mean_victories,
+       MIN(victories) AS min_victories,
+       MAX(victories) AS max_victories
+FROM drivers
+WHERE nationality = 'German'
+GROUP BY nationality
+HAVING SUM(victories) > 50;
 -- SQLBook: Markup
 <font size = "5">
 
@@ -129,6 +187,13 @@ HINT: See the end of lectures 17
 - Then sort using ``` ORDER BY ```
 
 HINT: See the end of lectures 17 and 18
+-- SQLBook: Code
+SELECT column_1, function(column_2)
+FROM table_name
+WHERE [condition]
+GROUP BY column_names
+HAVING [condition]
+ORDER BY column_names;
 -- SQLBook: Markup
 <font size = "5">
 
@@ -136,3 +201,10 @@ HINT: See the end of lectures 17 and 18
 
 - Compute an aggregate statistict using ```GROUP BY```
 - Subset one of the above datasets using ``` HAVING ```
+-- SQLBook: Code
+SELECT column_1, function(column_2)
+FROM table_name
+WHERE [condition]
+GROUP BY column_names
+HAVING [condition]
+ORDER BY column_names;
